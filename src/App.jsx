@@ -3,6 +3,7 @@ import { extinguishers, MEDIUM_GROUPS } from './data/extinguishers'
 import { SchemaPanel } from './components/SchemaPanel'
 import { LoginPage } from './components/LoginPage'
 import { splitPrimarySecondarySpecs } from './utils/splitSpecs'
+import { publicUrl } from './utils/publicUrl'
 import './App.css'
 
 function extinguisherMatchesQuery(ex, q) {
@@ -130,7 +131,7 @@ function MainApp({ onLogout }) {
         <div className="app-topbar__logo-wrap">
           <img
             className="app-topbar__logo"
-            src="/images/neuruppin-logo.png"
+            src={publicUrl('/images/neuruppin-logo.png')}
             alt="Neuruppin"
             width={160}
             height={48}

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import { publicUrl } from '../utils/publicUrl'
 
 function mediaIsPlaceholder(img) {
   return Boolean(img?.placeholder) || !img?.src
@@ -74,7 +75,7 @@ export function SchemaPanel({
   const openPhotoLb = () => {
     if (!productPhoto || photoIsPh) return
     setLightbox({
-      src: productPhoto.src,
+      src: publicUrl(productPhoto.src),
       alt: productPhoto.alt,
       caption: productPhoto.caption,
       ariaLabel: 'Povećana fotografija aparata',
@@ -84,7 +85,7 @@ export function SchemaPanel({
   const openSchemaLb = () => {
     if (schemaIsPh) return
     setLightbox({
-      src: heroImage.src,
+      src: publicUrl(heroImage.src),
       alt: heroImage.alt,
       caption: heroImage.caption,
       ariaLabel: 'Povećana shema',
@@ -94,7 +95,7 @@ export function SchemaPanel({
   const openExtraLb = (fig) => {
     if (!fig?.src) return
     setLightbox({
-      src: fig.src,
+      src: publicUrl(fig.src),
       alt: fig.alt || '',
       caption: fig.caption,
       ariaLabel: fig.ariaLabel || 'Povećana stranica iz upute',
@@ -135,7 +136,7 @@ export function SchemaPanel({
                 >
                   <div className="visual-media-frame">
                     <img
-                      src={productPhoto.src}
+                      src={publicUrl(productPhoto.src)}
                       alt={productPhoto.alt}
                       className="visual-media-frame__img"
                       loading="lazy"
@@ -188,7 +189,7 @@ export function SchemaPanel({
                   className={`visual-media-frame ${!twoCols ? 'visual-media-frame--solo' : ''}`}
                 >
                   <img
-                    src={heroImage.src}
+                    src={publicUrl(heroImage.src)}
                     alt={heroImage.alt}
                     className="visual-media-frame__img"
                     loading="lazy"
@@ -219,7 +220,7 @@ export function SchemaPanel({
                   aria-label={fig.ariaLabel || fig.alt || 'Otvori veću sliku'}
                 >
                   <img
-                    src={fig.src}
+                    src={publicUrl(fig.src)}
                     alt={fig.alt || ''}
                     className="figure-gallery__thumb"
                     loading="lazy"

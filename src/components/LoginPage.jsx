@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { publicUrl } from '../utils/publicUrl'
 
 const DEMO_USER = 'user'
 const DEMO_PASS = 'user123'
@@ -25,7 +26,7 @@ export function LoginPage({ onLogin }) {
         <div className="login-page__brand">
           <img
             className="login-page__logo"
-            src="/images/neuruppin-logo.png"
+            src={publicUrl('/images/neuruppin-logo.png')}
             alt="Neuruppin"
             width={280}
             height={80}
