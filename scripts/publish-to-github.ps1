@@ -25,8 +25,12 @@ $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
 
 Write-Host "Koristim: $gh"
-& $gh auth status 2>&1 | Out-Null
-if ($LASTEXITCODE -ne 0) {
+$prevEap = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
+$null = & $gh auth status 2>&1
+$authExit = $LASTEXITCODE
+$ErrorActionPreference = $prevEap
+if ($authExit -ne 0) {
   Write-Host ""
   Write-Host "Nisi prijavljen na GitHub. Pokreni u terminalu:" -ForegroundColor Yellow
   Write-Host "  & `"$gh`" auth login -h github.com -p https -w" -ForegroundColor Cyan
@@ -37,7 +41,7 @@ if ($LASTEXITCODE -ne 0) {
 $login = (& $gh api user -q .login).Trim()
 if (-not $login) { throw "Nije moguće pročitati GitHub korisnika." }
 $fullName = "$login/$RepoName"
-Write-Host "GitHub korisnik: $login  ->  repo: $fullName"
+Write-Host "GitHub korisnik: $login | repo: $fullName"
 
 $originUrl = ""
 try {
@@ -47,7 +51,7 @@ try {
 if (-not $originUrl) {
   Write-Host "Kreiram repozitorij i push na origin..."
   & $gh repo create $RepoName --public --source=. --remote=origin --push `
-    --description "Servisne upute – vatrogasni aparati (Vite/React)"
+    --description "Servisne upute - vatrogasni aparati (Vite/React)"
   if ($LASTEXITCODE -ne 0) {
     Write-Host "Repo create nije uspio (npr. ime već postoji). Povezujem origin i push..." -ForegroundColor Yellow
     $url = "https://github.com/$fullName.git"
@@ -84,4 +88,4 @@ Write-Host ""
 Write-Host "Gotovo. Nakon što Actions završi deploy:" -ForegroundColor Green
 Write-Host "  $pageUrl"
 Write-Host ""
-Write-Host "Ako stranica ne radi: Repo -> Settings -> Pages -> Source = GitHub Actions." -ForegroundColor DarkGray
+Write-Host 'Ako stranica ne radi: Settings / Pages / Source = GitHub Actions.' -ForegroundColor DarkGray
