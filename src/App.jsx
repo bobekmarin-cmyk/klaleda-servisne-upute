@@ -72,6 +72,28 @@ function MainApp({ onLogout }) {
   const [activeId, setActiveId] = useState(extinguishers[0].id)
   const [partVariantById, setPartVariantById] = useState(buildInitialPartVariants)
   const [sidebarQuery, setSidebarQuery] = useState('')
+  const [navOpen, setNavOpen] = useState(false)
+  const [isMobileNav, setIsMobileNav] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const sync = () => {
+      setIsMobileNav(mq.matches)
+      if (!mq.matches) setNavOpen(false)
+    }
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+
+  useEffect(() => {
+    if (!navOpen) return
+    const onKey = (e) => {
+      if (e.key === 'Escape') setNavOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [navOpen])
 
   const active = extinguishers.find((e) => e.id === activeId) ?? extinguishers[0]
 
@@ -122,9 +144,29 @@ function MainApp({ onLogout }) {
   const sidebarEmpty =
     firstVisibleId == null && Boolean(sidebarQuery.trim())
 
+  const closeNav = () => setNavOpen(false)
+  const pickExtinguisher = (id) => {
+    setActiveId(id)
+    closeNav()
+  }
+
   return (
-    <div className="layout">
+    <div className={`layout${navOpen ? ' layout--nav-open' : ''}`}>
       <header className="app-topbar">
+        <button
+          type="button"
+          className={`app-topbar__menu-btn${navOpen ? ' app-topbar__menu-btn--open' : ''}`}
+          aria-expanded={navOpen}
+          aria-controls="app-sidebar"
+          aria-label={navOpen ? 'Zatvori izbornik' : 'Izbornik aparata'}
+          onClick={() => setNavOpen((o) => !o)}
+        >
+          <span className="app-topbar__menu-bars" aria-hidden>
+            <span className="app-topbar__menu-bar" />
+            <span className="app-topbar__menu-bar" />
+            <span className="app-topbar__menu-bar" />
+          </span>
+        </button>
         <h1 className="app-topbar__title">
           Servisne upute za TOTAL vatrogasne aparate
         </h1>
@@ -159,39 +201,63 @@ function MainApp({ onLogout }) {
       </header>
 
       <div className="layout__body">
-      <aside className="sidebar" aria-label="Odabir tipa aparata">
-        <nav className="sidebar__nav" aria-label="Aparati po mediju">
-          {sidebarEmpty ? (
-            <p className="sidebar__empty" role="status">
-              Nema rezultata za „{sidebarQuery.trim()}“.
-            </p>
-          ) : (
-            MEDIUM_GROUPS.map((g) => {
-              const inGroup = visibleByGroup.get(g.key) ?? []
-              if (inGroup.length === 0) return null
-              return (
-                <div key={g.key} className="sidebar__category">
-                  <h2 className="sidebar__category-title">{g.label}</h2>
-                  <ul className="sidebar__category-list">
-                    {inGroup.map((ex) => (
-                      <li key={ex.id} className="sidebar__category-item">
-                        <button
-                          type="button"
-                          className={`nav-item ${ex.id === activeId ? 'nav-item--active' : ''}`}
-                          onClick={() => setActiveId(ex.id)}
-                          aria-current={ex.id === activeId ? 'page' : undefined}
-                        >
-                          <span className="nav-item__label">{ex.shortLabel}</span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )
-            })
-          )}
-        </nav>
-      </aside>
+        {navOpen ? (
+          <button
+            type="button"
+            className="sidebar-backdrop"
+            aria-label="Zatvori izbornik"
+            onClick={closeNav}
+          />
+        ) : null}
+        <aside
+          id="app-sidebar"
+          className={`sidebar${navOpen ? ' sidebar--open' : ''}`}
+          aria-label="Odabir tipa aparata"
+          aria-hidden={isMobileNav && !navOpen ? true : undefined}
+        >
+          <div className="sidebar__drawer-head">
+            <span className="sidebar__drawer-title">Popis aparata</span>
+            <button
+              type="button"
+              className="sidebar__drawer-close"
+              aria-label="Zatvori izbornik"
+              onClick={closeNav}
+            >
+              ×
+            </button>
+          </div>
+          <nav className="sidebar__nav" aria-label="Aparati po mediju">
+            {sidebarEmpty ? (
+              <p className="sidebar__empty" role="status">
+                Nema rezultata za „{sidebarQuery.trim()}“.
+              </p>
+            ) : (
+              MEDIUM_GROUPS.map((g) => {
+                const inGroup = visibleByGroup.get(g.key) ?? []
+                if (inGroup.length === 0) return null
+                return (
+                  <div key={g.key} className="sidebar__category">
+                    <h2 className="sidebar__category-title">{g.label}</h2>
+                    <ul className="sidebar__category-list">
+                      {inGroup.map((ex) => (
+                        <li key={ex.id} className="sidebar__category-item">
+                          <button
+                            type="button"
+                            className={`nav-item ${ex.id === activeId ? 'nav-item--active' : ''}`}
+                            onClick={() => pickExtinguisher(ex.id)}
+                            aria-current={ex.id === activeId ? 'page' : undefined}
+                          >
+                            <span className="nav-item__label">{ex.shortLabel}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              })
+            )}
+          </nav>
+        </aside>
 
       <main className="main">
         <header className="main__header main__header--full">

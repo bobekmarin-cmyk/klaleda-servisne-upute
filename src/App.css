@@ -138,6 +138,68 @@
   color: rgba(232, 238, 236, 0.9);
 }
 
+/* Hamburger — samo mobilni (prikaz u @media dolje) */
+.app-topbar__menu-btn {
+  display: none;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #e8eeec;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.app-topbar__menu-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.app-topbar__menu-bars {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.28rem;
+  width: 1.1rem;
+  height: 1rem;
+}
+
+.app-topbar__menu-bar {
+  display: block;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+
+.app-topbar__menu-btn--open .app-topbar__menu-bar:nth-child(1) {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.app-topbar__menu-btn--open .app-topbar__menu-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.app-topbar__menu-btn--open .app-topbar__menu-bar:nth-child(3) {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+.sidebar__drawer-head {
+  display: none;
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
 /* —— Login (cijeli zaslon, bez sidebara) —— */
 .login-page {
   min-height: 100vh;
@@ -1316,10 +1378,23 @@
     overflow: visible;
   }
 
+  .layout--nav-open {
+    overflow: hidden;
+    height: 100dvh;
+    max-height: 100dvh;
+    touch-action: none;
+  }
+
   .layout__body {
     flex-direction: column;
     flex: 1 1 auto;
     min-height: 0;
+    position: relative;
+  }
+
+  .app-topbar__menu-btn {
+    display: flex;
+    order: 0;
   }
 
   .app-topbar {
@@ -1332,8 +1407,9 @@
   }
 
   .app-topbar__title {
-    flex: 1 1 100%;
-    order: 1;
+    flex: 1 1 0;
+    order: 0;
+    min-width: 0;
     white-space: normal;
     text-overflow: unset;
     display: -webkit-box;
@@ -1346,15 +1422,17 @@
   .app-topbar__logo-wrap {
     position: static;
     transform: none;
-    order: 2;
-    flex: 0 0 auto;
+    order: 1;
+    flex: 1 1 100%;
     margin: 0 auto;
     pointer-events: auto;
+    display: flex;
+    justify-content: center;
   }
 
   .app-topbar__tools {
     flex: 1 1 100%;
-    order: 3;
+    order: 2;
     justify-content: stretch;
   }
 
@@ -1367,19 +1445,106 @@
     flex-shrink: 0;
   }
 
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(6, 12, 10, 0.52);
+    cursor: pointer;
+    animation: sidebar-backdrop-in 0.2s ease;
+  }
+
+  @keyframes sidebar-backdrop-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .sidebar {
-    width: 100%;
-    max-height: min(46dvh, 320px);
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(19rem, 90vw);
+    max-width: 100%;
+    z-index: 70;
     flex-shrink: 0;
+    min-height: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: none;
     font-size: calc(17 / 18 * 1rem);
+    padding: 0;
+    transform: translateX(-105%);
+    visibility: hidden;
+    transition:
+      transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.28s;
+    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar.sidebar--open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .sidebar__drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    padding: max(0.55rem, env(safe-area-inset-top, 0px)) 0.75rem 0.55rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar__drawer-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(232, 238, 236, 0.88);
+  }
+
+  .sidebar__drawer-close {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #e8eeec;
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .sidebar__drawer-close:hover {
+    background: rgba(255, 255, 255, 0.14);
   }
 
   .sidebar__nav {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.65rem 0.85rem 1rem;
     flex-direction: column;
     flex-wrap: nowrap;
-    -webkit-overflow-scrolling: touch;
   }
 
   .sidebar__category {
