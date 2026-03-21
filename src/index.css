@@ -33,6 +33,13 @@ body {
   min-height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  -webkit-tap-highlight-color: rgba(200, 60, 40, 0.15);
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
 
 #root {
