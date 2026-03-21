@@ -7,6 +7,32 @@ Putanja `/ime-repoa/` postavlja se automatski u GitHub Actions prema stvarnom im
 
 ## Prvi put na GitHub + online
 
+### Automatski (GitHub CLI)
+
+1. **Jednokratna prijava** (PowerShell):
+
+   ```powershell
+   & "C:\Program Files\GitHub CLI\gh.exe" auth login -h github.com -p https -w
+   ```
+
+   Otvori link u pregledniku, zalijepi kod uređaja, potvrdi.
+
+2. **Objavi repozitorij, push i Pages** iz korijena projekta:
+
+   ```powershell
+   cd D:\CURSOR\KLALEDA
+   .\scripts\publish-to-github.ps1
+   ```
+
+   Skripta kreira javni repo `klaleda-servisne-upute` (ili `-RepoName "drugo-ime"`), pusha `main` i pokuša uključiti GitHub Pages (workflow). Ako API za Pages zakaže, u **Settings → Pages** ručno postavi izvor na **GitHub Actions**.
+
+3. U repozitoriju: **Actions** — pričekaj zeleni **Deploy to GitHub Pages**.  
+   Adresa: `https://<user>.github.io/<ime-repoa>/`
+
+Ako `gh` nije u PATH-u, koristi punu stazu iz koraka 1.
+
+### Ručno
+
 1. Na GitHubu: **New repository** (npr. ime `klaleda-servisne-upute` ili bilo koje drugo — workflow prilagođava `base` prema imenu).
 2. U Cursoru: **Source Control** → **Publish Branch** / poveži `origin` i **push** grane `main`.  
    Ili u terminalu (nakon što postoji prazan repo na GitHubu):
