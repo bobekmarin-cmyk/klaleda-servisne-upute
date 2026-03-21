@@ -1,0 +1,42 @@
+:root {
+  --bg: #f4f6f5;
+  --surface: #fff;
+  --text: #1a211f;
+  --heading: #0f1614;
+  --muted: #5a6562;
+  --border: #dfe6e3;
+  --note-bg: #eef2f0;
+  /* Širina fiksne bočne trake (usklađeno s bivšim minmax(220px, 260px)) */
+  --sidebar-w: clamp(220px, 22vw, 260px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Jedan tipografski stupanj više od uobičajenih 16px — sve u rem u App.css skalira se s ovim */
+  font-size: 18px;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1rem;
+  background: var(--bg);
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#root {
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
