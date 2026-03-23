@@ -1,12 +1,17 @@
 :root {
-  --bg: #f4f6f5;
+  /* Neutralno svijetlo + tamnocrvena tema (bez zelenkastog) */
+  --bg: #f6f3f3;
   --surface: #fff;
-  --text: #1a211f;
-  --heading: #0f1614;
-  --muted: #5a6562;
-  --border: #dfe6e3;
-  --note-bg: #eef2f0;
-  /* Širina fiksne bočne trake (usklađeno s bivšim minmax(220px, 260px)) */
+  --text: #1f1818;
+  --heading: #1a0f10;
+  --muted: #5c5354;
+  --border: #e4dbdb;
+  --note-bg: #f0eaea;
+  /* Tamnocrvene pozadine (sidebar, login) */
+  --theme-red-deep: #120809;
+  --theme-red-mid: #1e1012;
+  --theme-red-high: #2c181a;
+  /* Širina fiksne bočne trake */
   --sidebar-w: clamp(220px, 22vw, 260px);
 }
 

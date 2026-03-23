@@ -17,7 +17,7 @@
   min-width: 0;
 }
 
-/* —— Top bar: jedan red — lijevo naslov, centar logo, desno tražilica + odjava —— */
+/* —— Top bar: svijetlo siva (ostatak aplikacije tamnocrvena tema) —— */
 .app-topbar {
   position: relative;
   flex-shrink: 0;
@@ -27,9 +27,9 @@
   gap: 0.55rem;
   padding: 0.38rem 0.7rem;
   min-height: 2.65rem;
-  background: linear-gradient(180deg, #152a26 0%, #0f1e1c 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  color: #e8eeec;
+  background: linear-gradient(180deg, #ececec 0%, #e3e3e5 100%);
+  border-bottom: 1px solid #c5c5c9;
+  color: var(--heading);
   z-index: 50;
 }
 
@@ -44,7 +44,7 @@
   font-weight: 500;
   letter-spacing: 0.01em;
   line-height: 1.2;
-  color: rgba(232, 238, 236, 0.72);
+  color: rgba(30, 22, 22, 0.88);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -101,30 +101,30 @@
   box-sizing: border-box;
   padding: 0.3rem 0.45rem;
   border-radius: 7px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.22);
-  color: #e8eeec;
+  border: 1px solid #b8b8bc;
+  background: #fafafa;
+  color: var(--text);
   font-family: inherit;
   font-size: 0.76rem;
 }
 
 .app-topbar__search-input::placeholder {
-  color: rgba(232, 238, 236, 0.38);
+  color: rgba(60, 50, 50, 0.45);
 }
 
 .app-topbar__search-input:focus {
   outline: none;
-  border-color: rgba(232, 90, 60, 0.45);
-  box-shadow: 0 0 0 1px rgba(200, 60, 40, 0.2);
+  border-color: rgba(140, 40, 45, 0.55);
+  box-shadow: 0 0 0 2px rgba(120, 35, 40, 0.12);
 }
 
 .app-topbar__logout {
   flex-shrink: 0;
   padding: 0.3rem 0.62rem;
   border-radius: 7px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(232, 238, 236, 0.78);
+  border: 1px solid #a8a8ae;
+  background: #f0f0f2;
+  color: #3a3030;
   font-family: inherit;
   font-size: 0.74rem;
   font-weight: 500;
@@ -133,9 +133,9 @@
 }
 
 .app-topbar__logout:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.16);
-  color: rgba(232, 238, 236, 0.9);
+  background: #e4e4e8;
+  border-color: #9898a0;
+  color: #1a1212;
 }
 
 /* Hamburger — samo mobilni (prikaz u @media dolje) */
@@ -148,17 +148,17 @@
   height: 2.5rem;
   margin: 0;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid #b0b0b6;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #e8eeec;
+  background: #f2f2f4;
+  color: #2a2222;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
 }
 
 .app-topbar__menu-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: #e8e8ec;
+  border-color: #9898a0;
 }
 
 .app-topbar__menu-bars {
@@ -208,7 +208,12 @@
   align-items: center;
   justify-content: center;
   padding: 1.25rem;
-  background: linear-gradient(165deg, #0f1816 0%, #1a2824 42%, #243330 100%);
+  background: linear-gradient(
+    165deg,
+    var(--theme-red-deep) 0%,
+    var(--theme-red-mid) 42%,
+    var(--theme-red-high) 100%
+  );
 }
 
 .login-page__card {
@@ -278,7 +283,7 @@
   font-family: inherit;
   font-size: 0.88rem;
   color: var(--text);
-  background: #fafcfb;
+  background: #faf8f8;
 }
 
 .login-form__input:focus {
@@ -309,7 +314,7 @@
 }
 
 .login-form__submit:hover {
-  background: #1e2e2a;
+  background: #3a1e20;
 }
 
 .login-form__submit:active {
@@ -327,8 +332,8 @@
 }
 
 .sidebar {
-  background: linear-gradient(180deg, #122 0%, #0c1716 100%);
-  color: #e8eeec;
+  background: linear-gradient(180deg, #2a1418 0%, var(--theme-red-deep) 100%);
+  color: #f0e8e8;
   padding: 0.65rem 0.85rem 0.75rem;
   display: flex;
   flex-direction: column;
@@ -406,7 +411,7 @@
 
 .nav-item:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(15, 22, 20, 0.95), 0 0 0 4px rgba(232, 90, 60, 0.65);
+  box-shadow: 0 0 0 2px rgba(40, 14, 18, 0.95), 0 0 0 4px rgba(200, 70, 60, 0.55);
 }
 
 .nav-item--active {
@@ -656,7 +661,7 @@
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid var(--border);
-  background: #fafbfa;
+  background: #faf8f8;
 }
 
 /* ~30% širine stupca sheme (prije: puna širina stupca) */
@@ -682,7 +687,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fafbfa;
+  background: #faf8f8;
   border-radius: 10px;
   border: 1px solid var(--border);
   overflow: hidden;
@@ -938,7 +943,7 @@
   border: none;
   padding: 0;
   margin: 0;
-  background: rgba(10, 18, 16, 0.82);
+  background: rgba(18, 10, 10, 0.85);
   cursor: pointer;
 }
 
@@ -1303,7 +1308,7 @@
 .service-details__body {
   padding: 0 0.45rem 0.4rem;
   border-top: 1px solid var(--border);
-  background: linear-gradient(180deg, #fafcfb 0%, var(--surface) 8px);
+  background: linear-gradient(180deg, #faf8f8 0%, var(--surface) 8px);
 }
 
 .service-details__body .block:first-child {
@@ -1453,7 +1458,7 @@
     border: none;
     padding: 0;
     margin: 0;
-    background: rgba(6, 12, 10, 0.52);
+    background: rgba(14, 6, 8, 0.55);
     cursor: pointer;
     animation: sidebar-backdrop-in 0.2s ease;
   }
